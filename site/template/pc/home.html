@@ -1,0 +1,156 @@
+<{include file="header.html"}>
+<link href="/js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+<div class="mainDiv">
+<{include file="top.html"}>
+
+<!--弹出层-->
+<div class="paypop"></div>
+<div class="paypopDiv">
+    <h3>订单已经提交</h3>
+    <div class="paypopInfo clearfix">
+    您的订单已经提交到支付款页面，请稍等～！<br /><br />
+    <a href="javascript:;" class="payerror">支付未完成</a>
+    <a href="javascript:;" class="payover">支付已完成</a>
+    </div>
+</div>
+<!--弹出层 END-->
+
+
+<div class="homeCenter">
+	<!--会员登录信息-->
+	<div class="memberInfo">
+    	<span>商户名：<b><{$name}></b> <{if $userstatus|default:0}><font color="green">已认证</font><{else}><font color="red">未认证</font><{/if}></span>
+        <ul class="clearfix">
+        	<li>商户编号：<{$userinfo.user_code}></li>
+            <li>累计完成订货： <{$product_num}> 件</li>
+            <li>累计完成订单数： <{$ordercount}> 个</li>
+            <li>会员级别：<{$userlevel.name}></li>
+            <li>享受折扣：<{if $userlevel.discount eq 1}>--<{else}><{$userlevel.discount * 10}> 折<{/if}></li>
+            <li>上次登录时间：<{$userinfo.last_login_time|date_format:'%Y年%m月%d日 %H:%M:%S'}></li>
+        </ul>
+    </div>
+    <!--快速搜索-->
+    <div class="search">
+    	<form action="" method="get" onsubmit="return checkSearch();">
+    	<span>快速搜索：</span>
+        <input name="keyword" id="keyword" type="text" class="searchInput" placeholder="货号/订单编号" value="<{if $keyword neq 'bh'}><{$keyword}><{/if}>" />
+        <input name="" type="submit" class="searchSubmit" value=" " />
+        </form>
+    </div>
+    <!--内容区域-->
+    <div class="borderDiv">
+    	<div class="orderInquiry">
+        	
+        	<h3>订单查询</h3>
+            <!--日期搜索-->
+            <div class="timeDiv clearfix">
+              <form action="" method="get" onsubmit="return checkOderDate();">
+            	<span><em></em>选择日期</span>
+                <div class="dataDiv">
+                	<input name="stardate" id="stardate" type="text" placeholder="起始日期" value="<{$stardate}>" onClick="WdatePicker()" />
+                </div>
+                <span>到</span>
+                <div class="dataDiv">
+                	<input name="enddate" id="enddate" type="text" placeholder="结束日期" value="<{$enddate}>" onClick="WdatePicker()" />
+                </div>
+                <input name="" type="submit" class="searchDate" value="查询" />
+              </form>
+            </div>
+            <!--日期搜索 end-->
+            
+       	  	<div class="titlediv clearfix">
+                 <a href="/"<{if $status eq 0 && $keyword neq 'bh'}> class="click"<{/if}>>全部订单</a>
+                 <a href="/?status=1"<{if $status eq 1}> class="click"<{/if}>>待预付</a>
+                 <a href="/?status=2"<{if $status eq 2}> class="click"<{/if}>>待发货</a>
+                 <a href="/?status=3"<{if $status eq 3}> class="click"<{/if}>>已发货</a>
+                 <a href="/?status=4"<{if $status eq 4}> class="click"<{/if}>>待结款</a>
+                 <a href="/?keyword=bh"<{if $keyword eq bh}> class="click"<{/if}>>补订货</a>
+                 <a href="/?status=5"<{if $status eq 5}> class="click"<{/if}>>已完结</a>
+                 <a href="/?status=7"<{if $status eq 7}> class="click"<{/if}>>已关闭</a>
+            </div>
+
+            <!--全部订单-->
+            <div class="orderList">
+            <div id="order1">
+            <table width="100%" border="0" cellspacing="1" cellpadding="0">
+			  <tr>
+			    <td class="title" align="center" width="40%">商品</td>
+			    <td class="title" align="center" width="10%">单价(元)</td>
+			    <td class="title" align="center" width="10%">数量</td>
+			    <td class="title" align="center" width="20%">付款(元)</td>
+			    <td class="title" align="center" width="20%">状态</td>
+			  </tr>
+			</table>
+
+            <{foreach from=$orders key=key item=order}>
+            <table width="100%" border="0" cellspacing="1" cellpadding="0">              
+              <tr><td colspan="2" class="title"><b>
+              <{$order.create_time|date_format:'%Y-%m-%d'}> &nbsp;&nbsp;
+              	订单号：<a href="/order/?order_code=<{$order.order_code}>" target="_blank"><{$order.order_code}></a>
+              </b></td>
+              <td align="center" class="title" width="20%"><b><{if $order.order_code|mb_substr:-2:2 eq 'BH' && $order.order_status eq 1}>未发货<{else}><{$order.status_name}><{/if}></b></td>
+              </tr>
+              <tr>
+                <td align="center">
+                <{assign var="titlenum" value="0"}>
+                	<{assign var="titleiii" value="0"}>
+					<{foreach from=$order.products key=key item=product}>
+						<{$titlenum = count($order.products)}>
+						<{$titleiii = $titleiii + 1}>
+						<{assign var="product_num" value="0"}>
+						<{foreach from=$product.outstock key=key1 item=outstock}>
+                            <{$product_num = $product_num + $outstock.product_num}>
+                        <{/foreach}>
+                        <div<{if $titlenum gt $titleiii}> class="productlist"<{/if}>>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+						  <tr>
+						    <td width="30%" ><a href="/product/?id=<{$product.skuid}>" target="_blank"><img src="<{$picpath}><{$product.pic}>" height="80"  /></a></td>
+						    <td width="35%" align="left"><{$product.title}> <br><br> <{$product.sku_name}> <br><br> SKU : <{$product.sku}></td>
+						    <td width="20%" align="center"><{if $product.old_price gt $product.current_price}><del style="color:#9C9C9C;"><{$product.old_price}></del> <br><br><{/if}><{$product.current_price}></td>
+						    <td align="center"><{$product_num}></td>
+						  </tr>
+						</table>
+                        </div>
+					<{/foreach}>
+                </td>
+                <td align="center" class="subtotal_d" width="20%" style="font-size:14px;">
+                	<{if $order.order_status gt 1}>
+                	   	<{if $order.amount - $order.paid gt 0 && $order.order_status lt 5}>本次应付：￥<i><{($order.amount - $order.paid)|string_format:'%.2f'}></i><br><br><{/if}>
+                	<{else}>
+                		本次应付：￥<i><{if $order.order_code|mb_substr:-2:2  eq 'SK'}><{($order.amount/2)|string_format:'%.2f'}><{else}><{$order.amount|string_format:'%.2f'}><{/if}></i> <br><br>
+                	<{/if}>
+                	订单总付：￥<i><{$order.amount|string_format:'%.2f'}></i> <br><br>
+                	订单已付：￥<i><{$order.paid|string_format:'%.2f'}></i> <br><br>
+                	(含运费：￥<{$order.shipping_cost|string_format:'%.2f'}>)
+           
+                </td>
+                <td align="center" class="subtotal_d">
+                <{if $order.order_code|mb_substr:-2:2 eq 'BH'}>
+                	<a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                <{else}>
+                	<{if 1==$order.order_status}>
+                		<a class="paya" href="/pay/?order_code=<{$order.order_code}>" onclick="payShowPop('<{$order.order_code}>')" target="_blank">预付款支付</a><br><br><br>
+                		<a class="paya" href="/pay/?order_code=<{$order.order_code}>&rate=1" onclick="payShowPop('<{$order.order_code}>')" target="_blank">全款支付</a><br><br>
+                		<a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                	<{elseif $order.order_status lt 4}>
+						<{if $order.amount - $order.paid gt 0}><a class="paya" href="/pay/?order_code=<{$order.order_code}>&yk=1" onclick="payShowPop('<{$order.order_code}>')" target="_blank">支付余款</a><br><br><{/if}>
+                        <a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                	<{else}>
+                		<a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                	<{/if}>
+                <{/if}>
+                </td>
+              </tr>
+            </table>
+           <{/foreach}>
+            <div class="bottomDiv clearfix"><div id="paged"><{$paged}></div></div>
+          </div>
+            <!-- 全部订单 end-->
+ 			</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<{include file="footer.html"}>

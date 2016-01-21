@@ -1,0 +1,186 @@
+<{include file="head.html"}>
+<div id="signin">
+<div class="logo">
+	<div class="logodiv clearfix">
+    	<img src="/images/reg-logo.png" /><span>帕斯婷分销系统登录</span>
+    	<div class="quickDiv">
+        	<a href="/"><i class="topBackicon"></i>返回首页</a>
+            <a href="/public/contactus"><i class="topTelicon"></i>联系我们</a>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="contentdiv clearfix">
+        <div class="reg-notice"><br />
+        	<b>温馨提示：</b><br /><br />
+            请填写正确的个人信息和公司信息，方便我们核查资料的真实性。
+        </div>
+        <div class="reg-info">
+        	<h2>账户注册</h2>
+            <div class="change clearfix">
+           	  <a<{if !$type}> class="select"<{/if}> href="/sign?a=up">个人账号</a>
+              <a<{if 1==$type}> class="select"<{/if}> href="/sign?a=up&t=1">公司账号</a>
+            </div>
+           
+        <{if 1==$step}>
+        <{if $type|default:1}>
+        
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+              <tr>
+                <td class="name">企业名称:</td>
+                <td><input type="text" name="enterprise_name" id="enterprise_name" placeholder="填写营业执照上的名称" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">营业执照号码:</td>
+                <td><input type="text" name="identity" id="identity" placeholder="填写营业执照号码" class="import" value="" /><i>*</i>必填</td> 
+              </tr>
+              <tr>
+                <td class="name">法人/授权代表身份证姓名:</td>
+                <td><input type="text" name="legal_name" id="legal_name" placeholder="输入法人姓名" class="import" /><i>*</i>必填</td>
+              </tr>
+               <tr>
+                <td class="name">法人/授权代表身份证号:</td>
+                <td><input type="text" name="legal_identity" id="legal_identity" placeholder="输入法人身份证号" class="import" /><i>*</i>必填</td>
+              </tr>
+
+              <tr>
+                <td class="name">联系邮箱:</td>
+                <td> <input type="text" name="email" id="email" placeholder="输入邮箱" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td valign="top" class="name">联系地址:</td>
+                <td class="clearfix">
+                <div class="styled-select">
+                    <select name="province" id="province">
+                        <option>省份</option>
+                        <{foreach from=$provinces key=key item=province}>
+                        <option value="<{$province.id}>"><{$province.name}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+                <div class="styled-select">
+                	<select name="city" id="city"><option>城市</option></select>
+                </div>
+                <div class="styled-select">
+                	<select name="county" id="county"><option>区/县</option></select>
+                </div><i style="margin:5px 0 0 0;">*</i>必填<br />
+                <input type="text" name="address" id="address" placeholder="街道" class="import" /><i>*</i>必填
+                </td>
+              </tr>
+              <tr>
+                <td class="name">邮政编码：</td>
+                <td><input type="text" name="postcode" id="postcode" placeholder="输入邮政编码" class="import" /></td>
+              </tr>
+            </table>        
+        
+       <{else}>
+       		
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+              <tr>
+                <td class="name">身份证姓名:</td>
+                <td><input type="text" name="legal_name" id="legal_name" placeholder="输入身份证姓名" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">身份证号码:</td>
+                <td><input type="text" name="identity" id="identity" placeholder="输入身份证号码" class="import" /><i>*</i>必填</td> 
+              </tr>
+              <tr>
+                <td class="name">联系邮箱:</td>
+                <td> <input type="text" name="email" id="email" placeholder="输入邮箱" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td valign="top" class="name">联系地址:</td>
+                <td class="clearfix">
+                <div class="styled-select">
+                    <select name="province" id="province">
+                        <option>省份</option>
+                        <{foreach from=$provinces key=key item=province}>
+                        <option value="<{$province.id}>"><{$province.name}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+                <div class="styled-select">
+                	<select name="city" id="city"><option>城市</option></select>
+                </div>
+                <div class="styled-select">
+                	<select name="county" id="county"><option>区/县</option></select>
+                </div><i style="margin:5px 0 0 0;">*</i>必填<br />
+                <input type="text" name="address" id="address" placeholder="街道门牌号等具体地址" class="import" /><i>*</i>必填
+                </td>
+              </tr>
+              <tr>
+                <td class="name">邮政编码：</td>
+                <td><input type="text" name="postcode" id="postcode" placeholder="输入邮政编码" class="import" /></td>
+              </tr>
+            </table>
+
+        <{/if}>
+         <div class="regsubmit">
+            <input name="type" id="type" type="hidden" value="<{$type}>" />
+            <input name="step" id="step" type="hidden" value="<{$step}>" />
+            <input type="button" name="button" value="下一步" class="btn-primary submitLogin" onclick="signUpOne()" />
+            <br /><br />您已经是会员？ <a href="/sign">立即登录</a>
+        </div>
+        
+         <{elseif 2==$step}>
+         
+         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+           <tr>
+              <td class="name">手机号码:</td>
+              <td style="position:relative;">
+              	<input type="text" id="user_phone" name="user" class="import loginInput" placeholder="注册手机号" value="<{$tmp_user}>" /><i>*</i>必填
+                <a href="javascript:clearTmpUserPhone()" style="right:110px; top:15px;<{if $tmp_user}> display:block;<{/if}>" id="cleartmpuserphone" title="清除" >X</a>
+                <em></em>
+              </td>
+            </tr>
+           
+            <tr>
+              <td class="name">获取验证码:</td>
+              <td>
+              	<input type="text" id="yzm" name="yzm" disabled="disabled" placeholder="输入手机验证码" class="phone loginInput phoneStart" />
+              	<input name="sendyzm" type="button" class="send" id="loginSend" value="发送验证码" onclick="getDuanXinYZM()" /><i>*</i>必填
+              </td>
+            </tr>
+            <tr>
+            	<td>&nbsp;</td>
+            	<td class="clearfix sendNotice" style="position:relative;">
+                	<a href="##" style="float:right; margin-right:90px;" class="nullSend">收不到验证码</a>
+                	<div class="tip" style="left:332px;">
+                    <ol>
+                		<li>请检查手机号码是否正确，并且手机在您身边。</li>
+                		<li>请检查手机短信是否能接收正常，手机安全软件是否把短信当作垃圾短信。</li>
+                		<li>请注意您的手机号是否欠费，欠费状态有可能收不到短信。</li>
+                		<li>如还不能解决您的问题，请致电：020-38805822，或把详细问题发生邮件至 ison@placentin.com，或关注帕斯婷官方微信号 ptp-cn，输入您的问题，我们及时为您解答。</li>
+                    </ol>
+                	</div>
+                    <em style="color:#f00;" class="error"<{if $errormsg}> style="display:block;"<{/if}>><{$errormsg}></em>
+                    <em class="success" style="color:#090;"></em>
+            	</td>
+            </tr>
+          </table>
+          
+          <div id="loading" style="display:none;">loading....</div>
+          <div class="regsubmit">
+          	<input name="t" id="type" type="hidden" value="<{$type}>" />
+            <input name="s" id="step" type="hidden" value="<{$step}>" />
+            <input name="sign" id="sign" type="hidden" value="up" />
+            <input name="token" id="token" type="hidden" value="<{$token}>" />
+            <input name="sigtoken" id="sigtoken" type="hidden" value="<{$signin_token}>" />
+            <a href="javascript:history.go(-1);"><< 返回上一步</a>
+            <input type="button" name="button" value="提交" class="btn-primary submitLogin" style="width:50%" onclick="signUpOne()" />
+            <br /><br />您已经是会员？ <a href="/sign">立即登录</a>
+        </div>
+        
+        <{/if}>
+        </div>
+    </div>
+</div>
+
+</div>
+<div class="footer">广州帕斯婷商贸有限公司 &copy;版权所有</div>
+<script type="text/javascript" src="/js/default.js"></script> 
+<{if $tmp_get_yzm}><script type="text/javascript">getDuanXinYZM();</script><{/if}>
+
+</body>
+</html>

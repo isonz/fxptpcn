@@ -1,0 +1,65 @@
+
+<!--添加新的地址 overlay start-->
+<div class="overlay_edit_address" id="overlay_add_address">
+    <h2>添加新的地址</h2>
+    <p class="note"><strong>* 为必填写栏目</strong>。 </p>
+    <form action="{:U('home://user/insertaddress')}" id="checkoutChangeAddressForm" method="post" class="address_form" onsubmit="return fillAddressBox()">
+    <dl>
+        <dd><label>
+                <span><i class="golden">* </i>姓名</span>
+                <input type="text" name="truename" class="text required" onblur="checkEmpty(this)" data-msg="请输入您的姓名" />
+            </label>
+            <span class="error_tips"></span>
+        </dd>
+        <dd>
+            <label>
+                <span><i class="golden">* </i>省份</span>
+                <select name="province" class="select required" onchange="checkEmpty(this);getCity( this.value )" data-msg="请选择所在省份">
+                    <option value="">请选择</option>
+                    <volist name="provinces" id="vo">
+                        <option value="{$vo.id}">{$vo.en_name}</option>
+                    </volist>
+                </select>
+            </label>
+            <label><i class="golden">* </i>城市
+                <select name="city" class="select required" id="citySelect" onchange="checkEmpty(this);getHometown( this.value )" data-msg="请选择所在城市"><option>请选择</option></select>
+            </label>
+            <label>区 <select name="hometown" id="hometownSelect"><option>请选择</option></select></label>
+            <span class="error_tips"></span>
+        </dd>
+        <dd><label>
+                <span><i class="golden">* </i>地址</span>
+                <input type="text" name="address" class="text detailed_address required" onblur="checkEmpty(this)" data-msg="请填写您的详细地址" />
+            </label>
+        	<span class="error_tips"></span>
+        </dd>
+        <dd>
+           <label><span>小区</span>
+           <input type="text" name="xqarea" class="text" /> 如果您住在小区内，请填写小区名
+           </label>
+        </dd>
+        <dd><label>
+                <span><i class="golden">* </i>邮政编码</span>
+                <input type="text" name="postcode" class="text required" onblur="checkEmpty(this)" data-msg="请输入邮政编码"/>
+            </label>
+        	<span class="error_tips"></span>
+        </dd>
+        <dd><label class="cellphone_num">
+                <span><i class="golden">* </i>手机</span>
+                <input type="text" name="mobile" id="Mobile" class="text required" onblur="checkMobile(this)" data-msg="请输入您的手机号码" />
+            </label>
+        	<span class="error_tips"></span>
+        </dd>
+        <dd><label class="fixedphone_num">
+            <span>固定电话</span>
+            <input type="text" name="phone" class="text" />
+        </label></dd>
+        <dd><label><input type="checkbox" name="setDefault" value="1" class="checkbox" /> 使用此地址作为默认送货地址</label></dd>
+    </dl>
+    <present name="checkout">
+        <input type="hidden" id="checkouttype" name="checkout" value="1"/>
+    </present>
+    <input type="submit" value="提交" class="btn_submit"/>
+    </form>
+</div>
+<!--添加新的地址 overlay end-->

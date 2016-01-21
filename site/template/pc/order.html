@@ -1,0 +1,323 @@
+<{include file="header.html"}>
+<!--弹出层-->
+<div class="paypop"></div>
+<div class="paypopDiv">
+    <h3>订单已经提交</h3>
+    <div class="paypopInfo clearfix">
+    您的订单已经提交到支付款页面，请稍等～！<br /><br />
+    <a href="javascript:;" class="payerror">支付未完成</a>
+    <a href="javascript:location.reload();" class="payover">支付已完成</a>
+    </div>
+</div>
+<!--弹出层 END-->
+<div class="mainDiv">
+  <{include file="top.html"}>
+	
+    <div class="homeCenter">
+    	<div class="order">
+        	<div class="orderTop">
+            	<ul class="clearfix">
+                	<li class="first-li">
+                    	<div class="stepOk">
+                            <div class="step-name">货品下单</div>
+                            <div class="step-line"></div>
+                            <div class="step-time"><{$orders.create_time|date_format:'%Y-%m-%d %H:%M:%S'}></div>
+                        </div>
+                    </li>
+                    
+                   <{if $orders.order_status gt 5}>
+                     <li class="step-last">
+                      <{if $orders.order_status gt 5}>
+                    	<div class="stepOk">
+                            <div class="step-name">订单取消</div>
+                            <div class="step-line"></div>
+                            <div class="step-time"><{$orders.cancel_time|date_format:'%Y-%m-%d %H:%M:%S'}></div>
+                        </div>
+                       <{/if}>
+                    </li>
+                    
+                    <{else}>
+                    
+                    <li>
+                      <{if $orders.order_status gt 1}>
+                    	<div class="stepOk">
+                            <div class="step-name">已付首款</div>
+                            <div class="step-line"></div>
+                            <div class="step-time"><{$orders.pay_time|date_format:'%Y-%m-%d %H:%M:%S'}></div>
+                        </div>
+                        <{else}>
+                        <div class="stepCur">
+                        	<div class="step-name">已付首款</div>
+                            <div class="step-line">2</div>
+                        </div>
+                       <{/if}>
+                    </li>
+                    
+                    <li>
+                    <{if $orders.order_status gt 2}>
+                      <div class="stepOk">
+                    	<div class="step-name">已发货</div>
+                        <div class="step-line"></div>
+                        <div class="step-time"><{$orders.shiped_time|date_format:'%Y-%m-%d %H:%M:%S'}></div>
+                      </div>
+                     <{elseif $orders.order_status eq 2}>
+                     	<div class="stepCur">
+                          <div class="step-name">已发货</div>
+                          <div class="step-line">3</div>
+                        </div>
+                     <{else}>
+                        <div class="step-name">已发货</div>
+                        <div class="step-line">3</div>
+                    <{/if}>
+                    </li>
+                    
+                    <li>
+                     <{if $orders.order_status gt 3}>
+                      <div class="stepOk">
+                    	<div class="step-name">已收货，待结款</div>
+                        <div class="step-line"></div>
+                        <div class="step-time"></div>
+                      </div>
+                     <{elseif $orders.order_status eq 3}>
+                     	<div class="stepCur">
+                          <div class="step-name">已收货，待结款</div>
+                        <div class="step-line">4</div>
+                        </div>
+                     <{else}>
+                        <div class="step-name">已收货，待结款</div>
+                        <div class="step-line">4</div>
+                    <{/if}>
+                    </li>
+                    
+                    <li class="step-last">   
+                     <{if $orders.order_status gt 4}>
+                      <div class="stepOk">
+                    	<div class="step-name">已结款，完结</div>
+                        <div class="step-line">5</div>
+                        <div class="step-time"><{$YK_orders.pay_time|date_format:'%Y-%m-%d %H:%M:%S'}></div>
+                      </div>
+                     <{elseif $orders.order_status eq 4}>
+                       <div class="stepOk">
+                         <div class="step-name">已结款，完结</div>
+                         <div class="step-line">5</div>
+                      </div>
+                     <{else}>
+                     <div class="stepLast">
+                        <div class="step-name">已结款，完结</div>
+                        <div class="step-line">5</div>
+                     </div>
+                    <{/if}>
+                    </li>
+                 <{/if}>
+                 
+                </ul>
+            </div>
+            
+            
+            <div class="orderSend clearfix">
+            	<h3>订单信息</h3>
+                <div class="orderSend-left">
+                	<h4>配送信息</h4>
+                    <dl class="clearfix">
+                    	<dt>收 货 人：</dt>
+                        <dd><{$address.receiver_name}></dd>
+                        <dt style="max-height:36px;">收货地址：</dt>
+                        <dd style="max-height:80px;"><{$address.pcc}><{$address.receiver_address}></dd>
+                        <dt>联系方式：</dt>
+                        <dd><{$address.receiver_phone}></dd>
+                        <dt>邮政编码：</dt>
+                        <dd><{$address.receiver_postcode}></dd>
+                        <dt>配送方式：</dt>
+                        <dd>快递</dd>
+                    </dl>
+                    <h4>订单信息</h4>
+                    <dl class="clearfix">
+                    	<dt>订单金额：</dt>
+                        <dd>￥<{$orders.amount}></dd>
+                     	<dt>已付金额：</dt>
+                        <dd><b>￥<{if $YK_orders.paid|default:0}><{($orders.paid+$YK_orders.paid)|string_format:'%.2f'}><{else}><{$orders.paid|string_format:'%.2f'}><{/if}></b></dd>
+                        <dt>折   &nbsp;&nbsp;&nbsp; 扣：</dt>
+                        <dd><{if $discount eq 1}>--<{else}><{$discount * 10}><{/if}></dd>
+                        <dt>运   &nbsp;&nbsp;&nbsp; 费：</dt>
+                        <dd><{if $orders.shipping_cost|default:0.00}>￥<{$orders.shipping_cost}><{else}>--<{/if}></dd>
+                        <dt>订单编号：</dt>
+                        <dd><{$order_code}></dd>
+                        <{if $BH_orders.create_time|default:''}>
+                        <dt>补货日期：</dt>
+                        <dd><{$BH_orders.create_time|date_format:'%Y-%m-%d %H:%M:%S'}></dd>
+                        <{/if}>
+                    </dl>
+                    
+                    <{if $paymethod.name|default:''}>
+                    <h4>支付信息：预付款</h4>
+                    <dl class="clearfix" style="border-bottom:0;">                        
+                        <dt>付款方式：</dt>
+                        <dd><{$paymethod.name}></dd>
+                        <dt>交易金额：</dt>
+                        <dd><{$orders.paid}></dd>
+                        <dt>交易单号：</dt>
+                        <dd><{$orders.pay_transaction_id}></dd>
+                        <dt>交易时间：</dt>
+                        <dd><{$orders.pay_time|date_format:'%Y-%m-%d %H:%M:%S'}></dd>
+                    </dl>
+                    <{/if}>
+                    
+                    <{if $YK_orders.pay_transaction_id|default:''}>
+                    <h4>支付信息：余款</h4>
+                    <dl class="clearfix" style="border-bottom:0;">                        
+                        <dt>付款方式：</dt>
+                        <dd><{$YK_orders.yk_pay_method.name}></dd>
+                        <dt>交易金额：</dt>
+                        <dd><{$YK_orders.paid}></dd>
+                        <dt>交易单号：</dt>
+                        <dd><{$YK_orders.pay_transaction_id}></dd>
+                        <dt>交易时间：</dt>
+                        <dd><{$YK_orders.pay_time|date_format:'%Y-%m-%d %H:%M:%S'}></dd>
+                    </dl>
+                    <{/if}>
+                </div>
+                
+                	
+                	
+                <div class="orderSend-right clearfix">
+               		<{if $orders.order_status lt 2}>
+                     <a class="status" href="/pay/?order_code=<{$order_code}>" target="_blank" onclick="payShowPop('<{$order_code}>')">预付款支付</a>
+                     <a class="status" href="/pay/?order_code=<{$order_code}>&rate=1" onclick="payShowPop('<{$order_code}>')" target="_blank">全款支付</a>
+                     <{elseif $orders.order_status lt 5 && $orders.amount - $orders.paid gt 0}>
+                     <a class="status" href="/pay/?order_code=<{$order_code}>&yk=1" target="_blank" onclick="payShowPop('<{$order_code}>')">支付余款</a>
+                    <{/if}>
+  
+                    <{if $orders.order_status eq 1}>
+                     <a class="status" href="javascript:cancelOrder('<{$order_code}>')" target="_blank" style="background:#777;">取消订单</a>
+                    <{/if}>
+                    <{if $orders.order_status eq 5 && !$BH_orders}>
+                     <a class="status" href="/replen/?order_code=<{$order_code}>">申请补货</a>
+                    <{/if}>
+                    <br /><br /><br />
+                   
+                	<em<{if $orders.order_status eq 5}> class="orderOver"<{/if}>></em>
+                    <div class="orderInfomation">
+                    	<h4><{$orders.order_statusname}></h4>
+                    	
+                      <{if $orders.ship_no|default:''}>
+                    	<br>
+                                               物流：<{$orders.ship_name}>&nbsp;&nbsp;&nbsp;&nbsp;  物流单号：<{$orders.ship_no}>
+                        <div class="logistics clearfix">
+                        	<b>物流信息：</b>
+                            <span id="shippinginfo1"></span>
+                            <br>
+                            <a class="status" id="shippinginfobtn1" href="javascript:showShippingInfo('<{$orders.ship_no}>','<{$orders.ship_name}>', 1)">查看物流信息</a>
+                        </div>
+                      <{/if}>
+                      <br>
+                      <{if $BH_orders.ship_no|default:''}>
+                    	<h4>补货物流信息</h4>
+                                               物流：<{$BH_orders.ship_name}>&nbsp;&nbsp;&nbsp;&nbsp;  物流单号：<{$BH_orders.ship_no}>
+                        <div class="logistics clearfix">
+                        	<b>物流信息：</b>
+                            <span id="shippinginfo2"></span>
+                            <br><br><br>
+                            <a class="status" id="shippinginfobtn2" href="javascript:showShippingInfo('<{$BH_orders.ship_no}>','<{$BH_orders.ship_name}>', 2)">查看物流信息</a>
+                        </div>
+                        <br><br><br>
+                      <{/if}>
+                    </div>
+                </div>                
+            </div>
+            
+             <{if $BH_orders|default:''}>
+            <!-- 补货商品 -->
+            <div class="orderSend clearfix">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="40%" align="center" class="title">商品</td>
+                    <td width="15%" align="center" class="title">单价（元）</td>
+                    <td width="15%" align="center" class="title">数量</td>
+                    <td width="30%" align="center" class="title">批号</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" class="loginfo">补货订单 &nbsp;&nbsp;&nbsp;&nbsp; 订单编号：<{$BH_orders.order_code}></td>
+                  </tr>
+                  <{foreach from=$BH_products key=key item=product}>
+                  <tr>
+                    <td style="padding:10px;">
+                    <a href="/product/?id=<{$product.skuid}>" target="_blank"><img src="<{$picpath}><{$product.pic}>" /></a>
+                    <div class="productinfo" style="float:none;">
+                    	<a href="/product/?id=<{$product.skuid}>" target="_blank"><{$product.title}></a><br /><br />
+                    	<em>产品规格：<{$product.sku_name}><br /><br /></em>
+                    	<em>产品编码：<{$product.sku}><br /></em>
+                    </div>
+                    </td>
+                    <td align="center">￥<{$product.current_price}></td>
+                    <td align="center">
+                     <{foreach from=$product.outstock key=okey item=poutstock}>
+                    	<{$poutstock.product_num}><br><br>
+                     <{/foreach}>
+                    </td>
+                     <td align="center">
+                     <{foreach from=$product.outstock key=okey item=poutstock}>
+                    	<{$poutstock.exp_date|date_format:'%Y-%m-%d'}><br><br>
+                     <{/foreach}>
+                    </td>
+                  </tr>
+                  <{/foreach}>
+                </table>
+                <div class="payDiv">
+                	 <span style="margin-bottom:10px;"><strong>补货订单，免费</strong></span>  
+                </div>
+          </div>
+          <!-- END 补货商品 -->
+          <{/if}>
+          
+            <div class="orderSend clearfix">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="40%" align="center" class="title">商品</td>
+                    <td width="15%" align="center" class="title">单价（元）</td>
+                    <td width="15%" align="center" class="title">数量</td>
+                    <td width="30%" align="center" class="title">批号</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" class="loginfo">预付订单 &nbsp;&nbsp;&nbsp;&nbsp; 订单编号：<{$order_code}></td>
+                  </tr>
+                  <{foreach from=$products key=key item=product}>
+                  <tr>
+                    <td style="padding:10px;">
+                    <a href="/product/?id=<{$product.skuid}>" target="_blank"><img src="<{$picpath}><{$product.pic}>" /></a>
+                    <div class="productinfo" style="float:none;">
+                    	<a href="/product/?id=<{$product.skuid}>" target="_blank"><{$product.title}></a><br /><br />
+                    	<em>产品规格：<{$product.sku_name}><br /><br /></em>
+                    	<em>产品编码：<{$product.sku}><br /></em>
+                    </div>
+                    </td>
+                    <td align="center">￥<{$product.current_price}></td>
+                    <td align="center">
+                     <{foreach from=$product.outstock key=okey item=poutstock}>
+                    	<{$poutstock.product_num}><br><br>
+                     <{/foreach}>
+                    </td>
+                     <td align="center">
+                     <{foreach from=$product.outstock key=okey item=poutstock}>
+                    	<{$poutstock.exp_date|date_format:'%Y-%m-%d'}><br><br>
+                     <{/foreach}>
+                    </td>
+                  </tr>
+                  <{/foreach}>
+                </table>
+				<div class="payDiv">
+                	 <span style="margin-bottom:10px;">已付款：<strong>￥<{if $YK_orders.paid|default:0}><{($orders.paid+$YK_orders.paid)|string_format:'%.2f'}><{else}><{$orders.paid|string_format:'%.2f'}><{/if}></strong></span>  
+                	<{if $orders.order_status lt 2}>
+                	<a href="/pay/?order_code=<{$order_code}>" target="_blank" onclick="payShowPop('<{$order_code}>')">支付预付款</a>
+                	<{elseif $orders.order_status lt 5 && $orders.amount - $orders.paid gt 0}>
+                	<a href="/pay/?order_code=<{$order_code}>&yk=1" target="_blank" onclick="payShowPop('<{$order_code}>')">支付余款</a>
+                	<{/if}>
+                </div>
+                
+          </div>
+            
+        </div>
+    </div>
+        
+</div>
+
+<{include file="footer.html"}>

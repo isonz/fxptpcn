@@ -1,0 +1,64 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+	<{include file="top.html"}>
+
+	<div class="homeCenter">
+    <div class="contentdiv clearfix" style="background:#fff; padding:30px;">
+        <div class="reg-notice"><br />
+        	<b>温馨提示：</b><br /><br />
+           	请填写您需要申请的那个项目的支持，我们会给你提供该项目对应的服务支持。
+        </div>
+<form id="form1" name="form1" method="post" action="" onsubmit="return certification();">
+<div class="reg-info" style="float:left;">
+
+<style>
+.reg-info table.people td.name{ width:115px;}
+input.import{ width:320px; background:#f9f9f9;border:1px solid #ccc;height:34px; text-indent:10px; font-size:14px; line-height:34px;}
+</style>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+              <tr>
+                <td class="name">商品编号:</td>
+                <td>
+                <input type="text" name="sales_channel" placeholder="请输入商品编号" class="import" /><i>*</i>必填
+                </td>
+              </tr>
+              <tr>
+                <td class="name">联系电话:</td>
+                <td><input type="text" name="tel" placeholder="请输入联系电话" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">申请项目:</td>
+                <td><input type="text" name="apply" placeholder="请输入申请项目" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">计划活动场地:</td>
+                <td><input type="text" name="field" placeholder="请输入计划活动场地" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">组织人数:</td>
+                <td><input type="text" name="field" placeholder="请输入组织人数" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">补充内容:</td>
+                <td><textarea name="" cols="" rows="" style="width:99%; height:50px;"></textarea></td>
+              </tr>
+              
+        </table>
+
+
+         <div class="regsubmit">
+            <input name="fileuploadpath" id="fileuploadpath" type="hidden" value="signbccl" />
+            <input name="t" id="type" type="hidden" value="<{$usertype}>" />
+            <input name="ckval" id="ckval" type="hidden" value="" />
+            <input type="submit" name="submit" value="提交" onclick="certificationval()" class="btn-primary innerSub" />
+        </div>
+        </div>
+</form>
+        </div>
+    </div>
+
+</div>
+
+<{include file="footer.html"}>

@@ -1,0 +1,89 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+<{include file="top.html"}>
+
+<div class="homeCenter">
+	
+	<div class="cartcenter">
+  	<h2>我的订货车<em></em></h2>    
+    
+    <div class="cartpro">
+    	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="carttitle">
+          <tbody><tr>
+            <td width="16%">
+              <label>
+                <input type="checkbox" name="checkbox" class="selectall"> 全选
+              </label>
+            </td>
+            <td width="54%" align="left">商品资料信息</td>
+            <td width="18%" align="center">总额</td>
+            <td width="12%" align="center">操作</td>
+          </tr>
+        </tbody>
+        </table>
+    </div>
+    
+    <div class="cartpro">
+    	<form action="/buy" method="post" id="cartForm">
+    	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="cartlist">
+             <tbody>
+             <{foreach from=$products key=key item=product}>
+             	<tr>
+                 <td width="6%" class="selectbox pro_check">
+                       <input type="checkbox" name="product_ids[<{$product.sku_id}>]" value="<{$product.sku_id}>" class="tpx">
+                     </td>
+                     <td width="36%" align="center" class="pro_img">
+                     <a href="/product/?id=<{$product.sku_id}>" target="_blank"><img src="<{$picpath}><{$product.sku.pic}>"></a><br />
+                     <a href="/product/?id=<{$product.sku_id}>" target="_blank"><{$product.sku.title}>&nbsp;<{$product.sku.sku_name}> [<{$product.sku.sku}>]</a><br />单价：￥<dfn id="startVal<{$product.sku_id}>"><{$product.sku.current_price}></dfn>
+                     </td>
+                     <td width="28%" align="center" class="pro_qty">
+                     	<a href="javascript:;" class="prolist_left" onclick="lefta(<{$product.sku_id}>)" id="listLeft<{$product.sku_id}>">-</a>
+                         <input name="qts[<{$product.sku_id}>]" type="text" class="prolist_input" value="<{$product.qt}>" onblur="blurShow(<{$product.sku_id}>)" id="proInput<{$product.sku_id}>">
+                         <a href="javascript:righta(<{$product.sku_id}>);" class="prolist_right" id="listRight<{$product.sku_id}>">+</a>
+                     </td>
+             		<td width="19%" align="center" class="pro_subtotal subtotal_d">￥<dfn id="Lst<{$product.sku_id}>"><{($product.sku.current_price * $product.qt)|string_format:'%.2f'}></dfn></td>
+                     <td width="11%" align="center" class="pro_delete"><a href="javascript:;" class="btn_delete" onclick="removeProduct(<{$product.sku_id}>)">删除</a></td>
+                 </tr>
+              <{/foreach}>
+      	 	</tbody></table>                    
+            <div class="cart-price">
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tbody><tr>
+                <td width="1%"></td>
+                <td width="16%" align="center">总计：￥<dfn class="price_last">0.00</dfn></td>
+                <td width="13%" align="center">折扣：<dfn class="price-p" style="font-weight:100;"><{if $userlevel.discount eq 1}> - <{else}> <{$userlevel.discount*10}> 折<{/if}></dfn></td>
+                <td width="11%" align="center" style="display:none;">运费：￥<dfn class="price-c">0.00</dfn></td>
+                <td width="18%" align="center">总额：￥<dfn class="last-p">0.00</dfn></td>
+                <td width="28%" align="right"><input type="submit" class="btn_checkout bt_ck" value="提交订单" disabled="disabled"></td>
+                <input name="leveldiscount" id="leveldiscount" type="hidden" value="<{$userlevel.discount}>" />
+              </tr>
+            </tbody></table>
+       		</div>
+       	</form> 
+    </div>
+                                      
+</div>
+
+<!--订货车没有物品-->
+
+<!--<div class="cartpro" style="padding-bottom:50px; border-bottom:1px solid #d7d7d7;">
+    <div class="checkout_left" style=" width:60%; margin:0;">           
+        <div class="bag_empty">
+            <p class="bag_empty_p1">您的购物车中暂无任何产品。</p>
+            <p class="bag_empty_p2" style=" margin-bottom:15px;">如果您曾经将任何商品放入您的购物车，登录后可进行浏览。</p>
+            <a href="{:U('home://index/')}" class="continue_shopping">继续购物>></a>
+        </div>
+    </div>      
+    <div class="checkout_right" style="width:30%; padding-top:15px;">
+        <p class="service_num">客户服务: 400-883-3338</p>
+    </div>
+    <div class="clear"></div>              
+</div>-->
+
+</div>
+
+</div>
+
+
+<{include file="footer.html"}>

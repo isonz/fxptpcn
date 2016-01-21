@@ -1,0 +1,52 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+<{include file="top.html"}>
+<div class="homeCenter">
+    <div class="cartcenter">
+    	<h2>地址管理 <em></em></h2>
+    	<div class="memberright">
+                      
+                <div class="address_info" style=" width:100%; margin:0; height:40px;"><a href="javascript:;" onclick="addNewAddress(0)">+添加新的地址</a></div>           
+    	
+            <{assign var="first" value="0"}>
+            <{foreach from=$address key=akey item=addr}>
+               <table width="100%" border="0" cellspacing="0" cellpadding="0" class="addressul<{if !$first}> madd<{/if}>">
+                  <tbody><tr>
+                    <td width="60%" class="title"><{if !$first}><strong class="red">默认送货地址</strong><{else}><strong><{$addr.receiver_name}></strong><{/if}></td>
+                    <td width="40%" align="right" class="title"><{if $first gt 0}><a href="javascript:;" class="set" onclick="setUserDefAddr(<{$akey}>, 0)">设为默认地址</a><{/if}></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">收 货 人：<em><{$addr.receiver_name}></em></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">所在地区：<em><{$addr.pcc}></em></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">详细地址：<em><{$addr.addr}></em></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">邮政编码：<em><{$addr.postcode}></em></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"> 手机号码: <em><{$addr.receiver_phone}></em></td>
+                  </tr>
+                  <tr>
+                    <td>
+                    <a href="javascript:;" class="editadd" onclick="editAddress(<{$akey}>, 0)">编辑该地址</a>
+                    </td>
+                    <td>
+                    <a href="javascript:;" class="delAdd" onclick="removeAddress(<{$akey}>)">删除该地址</a>
+                    </td>
+                  </tr>
+                </tbody></table>
+                <{$first = $first + 1}>
+          	<{/foreach}>
+          	<div class="address_info" style=" width:100%; margin:0; height:40px;"><a href="javascript:;" onclick="addNewAddress(0)">+添加新的地址</a></div>           
+        </div>
+    </div>
+</div>
+
+</div>
+
+<{include file="footer.html"}>

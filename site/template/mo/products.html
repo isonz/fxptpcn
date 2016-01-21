@@ -1,0 +1,52 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+<{include file="top.html"}>
+
+	<div class="homeCenter">
+		<div class="productdiv">	        
+			<{if $is_paged|default:0}>
+			
+		        <div class="productList">
+		        	<h3><a href="/products/?cateid=<{$cateid}>"><{$cate.name}></a></h3>
+		            <ul class="clearfix">
+		            	<{foreach from=$products key=pkey item=prod}>
+		                <li>
+		                	<a href="/product/?item_id=<{$prod.id}>" target="_blank">
+		                	<div class="imgDiv"><img src="<{$picpath}><{$prod.pics}>" /></div>
+		                    <h4><{$prod.title}></h4>
+		                    <p><{$prod.summary}></p>
+		                    <span>价格：<em>¥<{$prod.price}></em></span>
+		                    </a>
+		                </li>
+		               <{/foreach}>
+		            </ul>
+		        </div>
+		        
+			<{else}>
+			
+				<{foreach from=$products key=key item=product}>
+		        <div class="productList">
+		        	<h3><a href="/products/?cateid=<{$product.cate.id}>"><{$product.cate.name}></a></h3>
+		            <ul class="clearfix">
+		            	<{foreach from=$product.prod key=pkey item=prod}>
+		                <li>
+		                	<a href="/product/?item_id=<{$prod.id}>" target="_blank">
+		                	<div class="imgDiv"><img src="<{$picpath}><{$prod.pics}>" /></div>
+		                    <h4><{$prod.title}></h4>
+		                    <span>价格：<em>¥<{$prod.price}></em></span>
+		                    </a>
+		                </li>
+		               <{/foreach}>
+		            </ul>
+		        </div>
+		        <{/foreach}>
+		        
+		 	<{/if}>     
+	    </div>  
+	</div>
+</div>
+
+<div id="paged"><{$paged}></div>
+
+<{include file="footer.html"}>

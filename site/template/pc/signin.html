@@ -1,0 +1,64 @@
+<{include file="head.html"}>
+<div id="signin">
+<div class="logo">
+	<div class="logodiv clearfix">
+    	<img src="/images/reg-logo.png" /><span>帕斯婷分销系统登录</span>
+    	<div class="quickDiv">
+        	<a href="/"><i class="topBackicon"></i>返回首页</a>
+            <a href="/public/contactus"><i class="topTelicon"></i>联系我们</a>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="contentdiv clearfix">
+    	<img src="/images/login-img.jpg" />
+        <div class="login">
+        	<h2>请登录</h2>
+           
+            <form name="form1" method="post" action="/sign?in" onsubmit="return checkSignin();">
+              <ul class="simpleul">
+                <li>
+                	<input type="text" id="user_phone" name="user" class="import loginInput" placeholder="注册手机号" value="<{$tmp_user}>" />
+                	<input name="userphone" id="user_phones" type="hidden" value="" />
+                	<a href="javascript:clearTmpUserPhone()" id="cleartmpuserphone"<{if $tmp_user}> style="display:block;"<{/if}> title="清除" >X</a>
+                    <em></em>
+                </li>
+                <li><input type="text" id="yzm" name="yzm" class="phone loginInput phoneStart" disabled="disabled" placeholder="手机验证码" /><input name="" type="button" onclick="getDuanXinYZM()" class="send" id="loginSend" value="获取验证码" /></li>
+                <li class="clearfix sendNotice">
+                	<a href="##" style="float:right;" class="nullSend">收不到验证码</a>
+                	<div class="tip">
+                    <ol>
+                		<li>请检查手机号码是否正确，并且手机在您身边。</li>
+                		<li>请检查手机短信是否能接收正常，手机安全软件是否把短信当作垃圾短信。</li>
+                		<li>请注意您的手机号是否欠费，欠费状态有可能收不到短信。</li>
+                		<li>如还不能解决您的问题，请致电：020-38805822，或把详细问题发生邮件至 ison@placentin.com，或关注帕斯婷官方微信号 ptp-cn，输入您的问题，我们及时为您解答。</li>
+                    </ol>
+                	</div>
+                    <em class="error"<{if $errormsg}> style="display:block;"<{/if}>><{$errormsg}></em>
+                    <em class="success"></em>
+                </li>
+                <li>
+                	<input name="token" id="token" type="hidden" value="<{$token}>" />
+                	<input name="sigtoken" id="sigtoken" type="hidden" value="<{$signin_token}>" />
+                	<input name="sign" id="sign" type="hidden" value="in" />
+                	<input type="submit" name="submit" value="立即登录" style="width:100%;" class="submitLogin btn-primary" />
+                </li>
+              </ul>
+            </form>
+            <span>还不是会员？ <a href="/sign?a=up">免费注册</a></span>
+        </div>
+    </div>
+</div>
+
+<div style="margin:20px 0;">
+友情链接： <a href="http://m.kuaidi100.com" target="_blank" style="color:#888;">快递查询</a>
+</div>
+
+</div>
+<div class="footer">广州帕斯婷商贸有限公司 &copy;版权所有</div>
+
+<script type="text/javascript" src="/js/default.js"></script>
+<{if $tmp_get_yzm}><script type="text/javascript">getDuanXinYZM();</script><{/if}>
+</body> 
+</html> 

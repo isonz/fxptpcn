@@ -1,0 +1,148 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+<{include file="top.html"}>
+
+
+<{if $savestatus gt 0}>
+<div class="homeCenter">
+    <div class="contentdiv clearfix" style="background:#fff; padding:30px; color:#090; font-size:16px;">
+审核资料已经提交成功，正在等待工作人员审核，审核通过后方可以下订单。
+</div></div>
+<{else}>
+	<div class="homeCenter">
+    <div class="contentdiv clearfix" style="background:#fff; padding:30px;">
+        <div class="reg-notice"><br />
+        	<b>温馨提示：</b><br /><br />
+           	认证一旦通过，您的注册资料将以认证信息为准，联系地址为您证件上的地址。
+        </div>
+<form id="form1" name="form1" method="post" action="" onsubmit="return certification();">
+<div class="reg-info" style="float:left;">
+<em class="error"<{if $errormsg}> style="display:block;"<{/if}>><{$errormsg}></em>
+
+<{if $usertype|default:1}>
+<style>
+.reg-info table.people td.name{ width:230px;}
+input.import{ width:320px; background:#f9f9f9;border:1px solid #ccc;height:34px; text-indent:10px; font-size:14px; line-height:34px;}
+</style>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+              <tr>
+                <td class="name">营业执照原件照片:</td>
+                <td>
+                <input name="certification_photo" id="certification_photo" class="uploadinput" type="file" /><i>*</i>必填<br />
+                	<div id="certification_photo_files" class="files"></div>
+        <div id="certification_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+        <input name="certification_photo_val" id="certification_photo_val" type="hidden" value="" />
+                </td>
+              </tr>
+              <tr>
+                <td class="name">法人/授权代表身份证原件照片:</td>
+                <td><input name="enterprise_legal_photo" id="enterprise_legal_photo" class="uploadinput" type="file" /><i>*</i>必填<br>
+        <div id="enterprise_legal_photo_files" class="files"></div>
+        <div id="enterprise_legal_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+        <input name="enterprise_legal_photo_val" id="enterprise_legal_photo_val" type="hidden" value="" /></td>
+              </tr>
+              <tr>
+                <td class="name">法人/授权代表手持身份证原件照片:</td>
+                <td><input name="person_hold_photo" id="person_hold_photo" class="uploadinput" type="file" /><i>*</i>必填<br>
+        <div id="person_hold_photo_files" class="files"></div>
+        <div id="person_hold_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+        <input name="person_hold_photo_val" id="person_hold_photo_val" type="hidden" value="" /></td>
+              </tr>
+              <tr>
+                <td class="name">授权证明文件:</td>
+                <td><input name="enterprise_grant_photo" id="enterprise_grant_photo" class="uploadinput" type="file" />当授权人非法人时提供<br>
+        <div id="enterprise_grant_photo_files" class="files"></div>
+        <div id="enterprise_grant_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+        <input name="enterprise_grant_photo_val" id="enterprise_grant_photo_val" type="hidden" value="" /></td>
+              </tr>
+              <tr>
+                <td class="name">国税地税税务登记证照片:</td>
+                <td><input name="enterprise_tax_photo" id="enterprise_tax_photo" class="uploadinput" type="file" /><br>
+        <div id="enterprise_tax_photo_files" class="files"></div>
+        <div id="enterprise_tax_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+        <input name="enterprise_tax_photo_val" id="enterprise_tax_photo_val" type="hidden" value="" /></td>
+              </tr>
+              <tr>
+                <td class="name">其他证明文件照片:</td>
+                <td><input name="others_photo" id="others_photo" class="uploadinput" type="file" /><br>
+        <div id="others_photo_files" class="files"></div>
+        <div id="others_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+        <input name="others_photo_val" id="others_photo_val" type="hidden" value="" /></td>
+              </tr>
+              
+              <tr>
+                <td class="name">销售渠道:</td>
+                <td><input type="text" name="sales_channel" id="sales_channel" placeholder="请输入销售渠道&对应的有户数" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">获知渠道:</td>
+                <td><input type="text" name="how_to_kown_we" id="how_to_kown_we" placeholder="输入获知渠道(朋友介绍&其他)" class="import" /><i>*</i>必填</td>
+              </tr>
+        </table>
+
+<{else}>
+
+
+       	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+             <tr>
+               <td class="name">身份证原件照片:<br>（身份证正面）</td>
+               <td>
+               <input name="certification_photo" id="certification_photo" class="uploadinput" type="file" /><i>*</i>必填<br />
+               	<div id="certification_photo_files" class="files"></div>
+       <div id="certification_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+       <input name="certification_photo_val" id="certification_photo_val" type="hidden" value="" />
+               </td>
+             </tr>
+             <tr>
+               <td class="name">手持身份证原件照片:<br>（需看清手臂、面目以及身份证号）</td>
+               <td><input name="person_hold_photo" id="person_hold_photo" class="uploadinput" type="file" /><i>*</i>必填<br>
+       <div id="person_hold_photo_files" class="files"></div>
+       <div id="person_hold_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+       <input name="person_hold_photo_val" id="person_hold_photo_val" type="hidden" value="" /></td>
+             </tr>
+             <tr>
+               <td class="name">其他证明文件照片:<br>（非必填）</td>
+               <td><input name="others_photo" id="others_photo" class="uploadinput" type="file" /><br>
+       <div id="others_photo_files" class="files"></div>
+       <div id="others_photo_progress" class="progress"><div class="progress-bar progress-bar-success"></div></div>
+       <input name="others_photo_val" id="others_photo_val" type="hidden" value="" /></td>
+             </tr>
+             
+              <tr>
+               <td class="name">销售渠道:</td>
+               <td><input type="text" name="sales_channel" id="sales_channel" placeholder="请输入销售渠道&对应的有户数" class="import" /><i>*</i>必填</td>
+             </tr>
+             <tr>
+               <td class="name">获知渠道:</td>
+               <td><input type="text" name="how_to_kown_we" id="how_to_kown_we" placeholder="输入获知渠道(朋友介绍&其他)" class="import" /><i>*</i>必填</td>
+             </tr>
+           </table>
+
+<{/if}>
+         <div class="regsubmit">
+            <input name="fileuploadpath" id="fileuploadpath" type="hidden" value="signbccl" />
+            <input name="t" id="type" type="hidden" value="<{$usertype}>" />
+            <input name="ckval" id="ckval" type="hidden" value="" />
+            <input type="submit" name="submit" value="提交" onclick="certificationval()" class="btn-primary innerSub" />
+        </div>
+        </div>
+</form>
+        </div>
+    </div>
+    </div>
+<{/if}>
+
+
+
+</div>
+<script src="/js/jquery.ui.widget.js"></script>
+<script src="/js/fileupload/load-image.all.min.js"></script>
+<script src="/js/fileupload/canvas-to-blob.min.js"></script>
+<script src="/js/fileupload/bootstrap.min.js"></script>
+<script src="/js/fileupload/jquery.iframe-transport.js"></script>
+<script src="/js/fileupload/jquery.fileupload.js"></script>
+<script src="/js/fileupload/jquery.fileupload-process.js"></script>
+<script src="/js/fileupload/jquery.fileupload-image.js"></script>
+<script src="/js/fileupload/jquery.fileupload-validate.js"></script>
+<{include file="footer.html"}>

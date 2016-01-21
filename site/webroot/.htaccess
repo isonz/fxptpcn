@@ -1,0 +1,6 @@
+RewriteEngine On
+DirectoryIndex index.php
+RewriteCond %{REQUEST_URI} !^/(images|css|js|html|Upload|files)/
+RewriteRule . index.php [L]
+
+Redirect 301 /favicon.ico /images/favicon.ico

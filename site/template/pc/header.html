@@ -1,0 +1,46 @@
+<{include file="head.html"}>
+
+<{if !$userstatus|default:0}>
+<div class="noticeTop">您还没有通过实名认证，<a href="/sign/?a=bccl">上传您的身份信息 >> </a> 后才能下订单。</div>
+<{/if}>
+
+<{if $username|default:0}>
+<div id="header">
+	<div class="leftMenu">
+    	<a href="/"><img src="/images/logoinner.jpg" /></a>
+    	<h2><a href="/"><em></em>系统首页</a></h2>
+        <ul>
+        	<li>
+            	<a href="/"<{if !$action}> class="select"<{/if}>><em class="order"></em>我的订单<i></i><dfn></dfn></a>
+            </li>
+        	<li>
+            	<a href="/products" class="productMenu"><em class="product"></em>产品目录<i></i><dfn></dfn></a>
+            </li>
+            <li class="productDiv">
+            	<a href="/products"<{if $action eq 'products' && $cateid eq 0}> class="select"<{/if}>><i></i>所有产品<dfn></dfn></a>
+            	<{foreach from=$root_cates key=key item=root_cate}>					
+            	<a href="/products/?cateid=<{$root_cate.id}>"<{if $action eq 'products' && $cateid eq $root_cate.id}> class="select"<{/if}>><i></i><{$root_cate.name}><dfn></dfn></a>
+                <{/foreach}>
+            </li>
+            <li>
+            	<a href="/cart"<{if $action eq 'cart'}> class="select"<{/if}>><em class="cart"></em>我的订货车<i></i><dfn></dfn></a>
+            </li>
+            <li>
+            	<a href="/support"<{if $action eq 'support'}> class="select"<{/if}>><em class="apply"></em>申请支持<i></i><dfn></dfn></a>
+            </li>
+            <li>
+            	<a href="/contactus"<{if $action eq 'contactus'}> class="select"<{/if}>><em class="contant"></em>联系我们<i></i><dfn></dfn></a>
+            </li>
+            <li>
+            	<a href="/user"<{if $action eq 'user'}> class="select"<{/if}>><em class="meb"></em>帐户信息<i></i><dfn></dfn></a>
+            </li>
+            <li>
+            	<a href="/address"<{if $action eq 'address'}> class="select"<{/if}>><em class="address"></em>地址列表<i></i><dfn></dfn></a>
+            </li>
+            <li>
+            	<a href="/favorite"<{if $action eq 'favorite'}> class="select"<{/if}> id="favoritea"><em class="fav"></em>我的收藏夹<i></i><dfn></dfn></a>
+            </li>
+        </ul>
+  </div>
+</div>
+<{/if}>

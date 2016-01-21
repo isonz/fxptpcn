@@ -1,0 +1,47 @@
+<{include file="head.html"}>
+<{if $username|default:0}>
+<div class="maintop clearfix">
+    <span class="clearfix">
+        <b><{$username}></b>
+        <a href="/sign?out">退出</a>
+        <a href="/" style="float:right"><img src="/images/mobile/home.png" class="backhome" /></a>
+    </span>
+</div>
+<{/if}>
+
+<{if !$userstatus|default:0}>
+<div class="noticeTop">您还没有通过实名认证，<a href="/sign/?a=bccl">上传您的身份信息 >> </a> 后才能下订单。</div>
+<{/if}>
+
+<{if $username|default:0}>
+<div style="padding:10px 0;">
+	<div class="leftMenu">
+        <ul class="clearfix">
+        	<li class="mb-bd1 mb-bd2">
+            	<a href="/orderList"><em class="order"></em>订单</a>
+            </li>
+        	<li class="mb-bd1 mb-bd2">
+            	<a href="/products" class="productMenu"><em class="product"></em>所有产品</a>
+            </li>
+            <li class="mb-bd1 mb-bd2">
+            	<a href="/cart"><em class="cart"></em>订货车<font id="cartTopNum"><{$cart_num}></font></a>
+            </li>
+            <li class="mb-bd1">
+            	<a href="/support"><em class="apply"></em>申请支持</a>
+            </li>
+            <li class="mb-bd2">
+            	<a href="/contactus"><em class="contant"></em>联系我们</a>
+            </li>
+            <li class="mb-bd2">
+            	<a href="/user"><em class="meb"></em>个人信息</a>
+            </li>
+            <li class="mb-bd2">
+            	<a href="/address"><em class="address"></em>地址列表</a>
+            </li>
+            <li>
+            	<a href="/favorite" id="favoritea"><em class="fav"></em>收藏夹</a>
+            </li>
+        </ul>
+  </div>
+</div>
+<{/if}>

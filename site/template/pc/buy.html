@@ -1,0 +1,86 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+<{include file="top.html"}>
+<div class="homeCenter">
+    <div class="cartcenter">
+    	<h2>确认收货地址<em></em></h2>   
+    	<div class="cartpro">
+    	
+    	<form action="/pay" method="post" id="buyForm">
+	 	<div class="order_info clearfix">               
+             <ul style="padding:5px;background:#fff; border:1px solid #ccc;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;">
+                    <li class="shipping_address rdda">       
+                   	<div id="addressList">
+                       <{assign var="first" value="0"}>
+                       <{foreach from=$address key=akey item=addr}>
+                       <div class="new_adddiv<{if !$first}> radiodiv<{/if}>">
+                          <label><input type="radio" name="address" value="<{$akey}>"<{if !$first}> checked="checked"<{/if}> class="changeAdd"><{$addr.pcc}> <{$addr.addr}> <{$addr.postcode}> (<{$addr.receiver_name}> ) <{$addr.receiver_phone}></label>
+                          <em<{if !$first}> id="onluy"<{/if}>>默认地址</em>
+                          <a href="javascript:;" class="change_mo" style="display: none;" onclick="setUserDefAddr(<{$akey}>, 1)">设置为默认地址</a>
+                          <a href="javascript:;" class="editadd <{if $first gt 0}>orderhide<{/if}>" id="address_<{$akey}>" onclick="editAddress(<{$akey}>,2)" <{if $first gt 0}>style="display: none;"<{/if}>>修改本地址</a>
+                          <div class="moren"<{if !$first}> style="display: block;"<{else}> style="display: none;"<{/if}>>送货到</div>
+                          <{$first = $first + 1}>
+                       </div>
+					  <{/foreach}>  
+					</div>                    
+                    <div class="new_addre"><a href="javascript:;" class="add_address" onclick="addNewAddress(1)">添加新的地址</a></div>	
+                </li>
+                        <div class="oopdiv">
+                       	<li class="deduction_amount oop clearfix" style=" padding:10px 0; margin:0;">
+                        <div style="float:right; margin-right:30px; line-height:24px;">
+                        <dfn style="font-size:14px;">订单总额：</dfn><b style="color:#888;font-size:18px; font-family:Arial;" >￥<dfn id="allPr"><{$total|string_format:'%.2f'}></dfn></b><br />
+                        运费：￥<dfn id="yunfei"><{$yunfei}></dfn>
+                        </div></li>                       	                       	
+                        </div>
+                    </ul> 
+                                        
+                    <div>
+                        <input type="submit" class="sub_checkout" value="提交订单" style="text-align:center; float:right; padding:0; height:36px; margin-bottom:20px; background:#da6100;"/>
+                        <div style="float:right; margin-right:30px; line-height:36px;">
+                        <dfn style="font-size:14px;">会员折扣：<{if $userlevel.discount eq 1}> - <{else}> <b style="color:#f00;font-size:18px;"><dfn id="lastPr"><{$userlevel.discount*10}></dfn></b> 折<{/if}></dfn>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <dfn style="font-size:14px;">总付金额：</dfn>
+                        <b style="color:#f00;font-size:18px;">￥<dfn><{$newtotal|string_format:'%.2f'}></dfn></b>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <dfn style="font-size:14px;">本次预付金额：</dfn>
+                        <b style="color:#f00;font-size:18px;">￥<dfn><{($newtotal/2)|string_format:'%.2f'}></dfn></b>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                   <h2 style="border-bottom:1px solid #d7d7d7; color:#666; clear:both; margin:0 0 15px 0; font-weight:100;">确认订单信息</h2>
+                    <div class="bag_proList" style="width:100%; margin-bottom:20px;">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                                <thead><tr>
+                                        <th width="18%" class="pro_img">商品</th>
+                                        <th width="22%" class="pro_name">名称/规格</th>
+                                        <th width="15%" class="pro_price">价格</th>
+                                        <th width="10%" class="pro_qty">数量</th>
+                                        <th width="16%" class="pro_subtotal">小计</th>
+                                    </tr></thead>
+                                <tbody>         	
+                                	<{foreach from=$skus key=skey item=sku}>
+                                    <tr>
+                                        <td class="pro_img"><a href="/product/?id=<{$sku.info.id}>" target="_blank"><img src="<{$picpath}><{$sku.info.pic}>" /></a></td>
+                                        <td class="pro_name"><a href="/product/?id=<{$sku.info.id}>" target="_blank"><{$sku.info.title}></a><{$sku.info.sku_name}><br> [<{$sku.info.sku}>]</td>
+                                        <td class="pro_price">￥<{$sku.info.current_price}></td>
+                                        <td class="pro_qty" id="qty"><{$sku.qt}></td>
+                                        <td class="pro_subtotal">￥<{$sku.info.current_price * $sku.qt}></td>
+                                    </tr>
+                                    <input name="sku_ids[<{$sku.info.id}>]" type="hidden" value="<{$sku.qt}>" />
+                                    <input name="token" type="hidden" value="<{$token}>" />
+                                    <{/foreach}>
+                                </tbody>
+                            </table>
+                    </div> 
+                </div>
+                </form>
+                <!--order_info end-->
+            </div>
+    
+    </div>
+  </div>     
+</div>
+
+
+<{include file="footer.html"}>

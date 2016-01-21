@@ -1,0 +1,36 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+<{include file="top.html"}>
+
+<!--弹出层-->
+<div class="paypop"></div>
+<div class="paypopDiv">
+    <h3>订单已经提交</h3>
+    <div class="paypopInfo clearfix">
+    您的订单已经提交到支付款页面，请稍等～！<br /><br />
+    <a href="/order/?order_code=<{$order_code}>" class="payerror">支付未完成</a>
+    <a href="/order/?order_code=<{$order_code}>" class="payover">支付已完成</a>
+    </div>
+</div>
+<!--弹出层 END-->
+
+<div class="homeCenter">
+<div class="memberInfo">
+	<b style="color:#090; font-size:16px;">订单提交成功</b><br /><br />
+    系统已为您保留库存1个小时，请在1个小时内完成支付，过期库存将被释放。
+    <br /><br />
+    <a href="<{$payurl}>" class="btn_pay" target="_blank"<{if !$is_weixin}> onclick="payShowPop()"<{/if}>>预付款支付 >></a><br><br>
+    <a href="<{$payurl_all}>" class="btn_pay" target="_blank"<{if !$is_weixin}> onclick="payShowPop()"<{/if}>>全款支付 >></a>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+function payShowPop(){
+	$(".paypop").show();
+	$(".paypopDiv").show();
+}
+</script>
+
+<{include file="footer.html"}>

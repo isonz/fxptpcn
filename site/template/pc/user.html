@@ -1,0 +1,129 @@
+<{include file="header.html"}>
+<style>
+#signin{ width:auto; margin:0 auto; padding:20px;}
+</style>
+<div class="mainDiv">
+	<{include file="top.html"}>
+    <div id="signin">
+    <div class="content">
+	<div class="contentdiv clearfix">
+        <div class="reg-notice"><br />
+        	<b>温馨提示：</b><br /><br />
+            请填写正确的个人信息和公司信息，方便我们核查资料的真实性。
+        </div>
+        <div class="reg-info" style="width:620px; float:left">
+        <h2>账户信息 <{if $user.status eq 1}>- [已认证]<{/if}></h2> 
+
+		<{if $user.type eq 1}>
+        <!--公司账号-->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+              <tr>
+                <td class="name">企业名称:</td>
+                <td><input type="text" name="enterprise_name" id="enterprise_name" placeholder="填写营业执照上的名称" class="import" /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">营业执照号码:</td>
+                <td><input type="text" name="identity" id="identity" placeholder="填写营业执照号码" class="import" value="" /><i>*</i>必填</td> 
+              </tr>
+              <tr>
+                <td class="name">法人/授权代表身份证姓名:</td>
+                <td><input type="text" name="legal_name" id="legal_name" placeholder="输入法人姓名" class="import" /><i>*</i>必填</td>
+              </tr>
+               <tr>
+                <td class="name">法人/授权代表身份证号:</td>
+                <td><input type="text" name="legal_identity" id="legal_identity" placeholder="输入法人身份证号" class="import" /><i>*</i>必填</td>
+              </tr>
+
+              <tr>
+                <td class="name">联系邮箱:</td>
+                <td> <input type="text" name="email" id="email" placeholder="输入邮箱" class="import" /></td>
+              </tr>
+              <tr>
+                <td valign="top" class="name">联系地址:</td>
+                <td class="clearfix">
+                <div class="styled-select">
+                    <select name="province" id="province">
+                        <option>省份</option>
+                        <{foreach from=$provinces key=key item=province}>
+                        <option value="<{$province.id}>"><{$province.name}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+                <div class="styled-select">
+                	<select name="city" id="city"><option>城市</option></select>
+                </div>
+                <div class="styled-select">
+                	<select name="county" id="county"><option>区/县</option></select>
+                </div><br />
+                <input type="text" name="address" id="address" placeholder="街道" class="import" />
+                </td>
+              </tr>
+              <tr>
+                <td class="name">邮政编码：</td>
+                <td><input type="text" name="postcode" id="postcode" placeholder="输入邮政编码" class="import" /></td>
+              </tr>
+            </table>        
+        <{else}>
+       		<!--个人账号-->
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+              <tr>
+                <td class="name">身份证姓名:</td>
+                <td><input type="text" name="legal_name" id="legal_name" placeholder="输入身份证姓名" class="import" value="<{$user.legal_name}>"<{if $user.status eq 1}> disabled="disabled"<{/if}> /><i>*</i>必填</td>
+              </tr>
+              <tr>
+                <td class="name">身份证号码:</td>
+                <td><input type="text" name="identity" id="identity" placeholder="输入身份证号码" class="import" value="<{$user.identity}>"<{if $user.status eq 1}> disabled="disabled"<{/if}> /><i>*</i>必填</td> 
+              </tr>
+              
+              <tr>
+                <td class="name">联系邮箱:</td>
+                <td> <input type="text" name="email" id="email" placeholder="输入邮箱" class="import"  value="<{$user.email}>"<{if $user.status eq 1}> disabled="disabled"<{/if}> /></td>
+              </tr>
+              <tr>
+                <td valign="top" class="name">联系地址:</td>
+                <td class="clearfix">
+                <div class="styled-select">
+                    <select name="province" id="province"<{if $user.status eq 1}> disabled="disabled"<{/if}>>
+                        <option>省份</option>
+                        <{foreach from=$provinces key=key item=province}>
+                        <option value="<{$province.id}>"<{if $province.id eq $address.receiver_province}> selected="selected"<{/if}>><{$province.name}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+                <div class="styled-select">
+                	<select name="city" id="city"<{if $user.status eq 1}> disabled="disabled"<{/if}>><option><{$city}></option></select>
+                </div>
+                <div class="styled-select">
+                	<select name="county" id="county"<{if $user.status eq 1}> disabled="disabled"<{/if}>><option><{$county}></option></select>
+                </div><br />
+                <input type="text" name="address" id="address" placeholder="街道门牌号等具体地址" class="import"  value="<{$address.receiver_address}>"<{if $user.status eq 1}> disabled="disabled"<{/if}> />
+                </td>
+              </tr>
+              <tr>
+                <td class="name">邮政编码：</td>
+                <td><input type="text" name="postcode" id="postcode" placeholder="输入邮政编码" class="import" value="<{$address.receiver_postcode}>"<{if $user.status eq 1}> disabled="disabled"<{/if}> /></td>
+              </tr>
+            </table>
+		<{/if}>
+        
+         <div class="regsubmit">
+            <input name="type" id="type" type="hidden" value="<{$type}>" />
+            <input name="step" id="step" type="hidden" value="<{$step}>" />
+           <{if $user.status eq 0}> <input type="button" name="button" value="修改" class="btn-primary submitLogin" onclick="signUpOne()" /><{/if}>
+        </div>
+        
+         
+         <br />
+        <br /><br /><br />
+          
+          <div id="loading" style="display:none;">loading....</div>
+         
+        
+        </div>
+    </div>
+    
+    </div></div>
+
+</div>
+
+<{include file="footer.html"}>

@@ -1,0 +1,44 @@
+
+<link href="/js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+<div class="mainDiv">
+<{include file="top.html"}>
+<{include file="header.html"}>
+
+<div class="homeCenter">
+	<div>
+    	<div class="orderInquiry">
+        	
+        	<h3 class="clearfix">我的订单 <a href="/orderList">全部订单>></a></h3>
+            
+       	  	<div class="titlediv clearfix">
+                 
+                 <a href="/orderList/?status=1"<{if $status eq 1}> class="click"<{/if}>><em class="od1"></em>待预付</a>
+                 <a href="/orderList/?status=2"<{if $status eq 2}> class="click"<{/if}>><em class="od2"></em>待发货</a>
+                 <a href="/orderList/?status=3"<{if $status eq 3}> class="click"<{/if}>><em class="od3"></em>已发货</a>
+                 <a href="/orderList/?status=4"<{if $status eq 4}> class="click"<{/if}>><em class="od4"></em>待结款</a>
+                 <a href="/orderList/?keyword=bh"<{if $keyword eq bh}> class="click"<{/if}>><em class="od5"></em>补订货</a>
+                 <a href="/orderList/?status=5"<{if $status eq 5}> class="click"<{/if}>><em class="od6"></em>已完结</a>
+            </div>
+        </div>
+    </div>
+
+	
+	<!--会员登录信息-->
+	<div class="memberInfo">
+    	<span>商户名：<b><{$name}></b> <{if $userstatus|default:0}><font color="green">已认证</font><{else}><font color="red">未认证</font><{/if}></span>
+        <ul class="clearfix">
+        	<li>商户编号：<{$userinfo.user_code}></li>
+            <li>累计完成订货： <{$product_num}> 件</li>
+            <li>累计完成订单数： <{$ordercount}> 个</li>
+            <li>会员级别：<{$userlevel.name}></li>
+            <li>享受折扣：<{if $userlevel.discount eq 1}>--<{else}><{$userlevel.discount * 10}> 折<{/if}></li>
+            <li>上次登录时间：<{$userinfo.last_login_time|date_format:'%Y年%m月%d日 %H:%M:%S'}></li>
+        </ul>
+    </div>
+
+    
+</div>
+
+</div>
+<{include file="footer.html"}>

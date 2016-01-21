@@ -1,0 +1,87 @@
+<script type="text/javascript">
+	//提交时校验
+	document.getElementById("name").onkeyup=function(){
+	var re=/^[a-zA-Z\u4E00-\u9FA5]*$/;//只允许输入数字和大小写字母
+	if(!re.test(this.value)){
+	alert("请勿输入非法字符");
+	this.value=this.value.substr(0,this.value.length-1);//将最后输入的字符去除
+	  }
+	}
+</script>
+<!--编辑已有地址 overlay start-->
+<div class="overlay_edit_address" id="overlay_edit_address">
+    <h2>编辑地址</h2>
+    <p class="note"><strong>* 为必填写栏目</strong>。 </p>
+    <form action="{:U('home://user/updateaddress')}" id="checkoutChangeAddressForm" method="post" class="address_form" onsubmit="return fillAddressBox()">
+    <dl>
+        <dd><label>
+                <span><i class="golden">* </i>姓名</span>
+                <input type="text" name="truename" class="text required" value="{$address.truename}" onblur="checkEmpty(this)" id="name" data-msg="请输入您的姓名" />
+            </label>
+        	<span class="error_tips"></span>
+        </dd>
+        <dd>
+            <label>
+                <span><i class="golden">* </i>省份</span>
+                <select name="province" class="select required" onchange="checkEmpty(this);getCity( this.value )" data-msg="请选择所在省份">
+                    <option value="">请选择</option>
+                    <volist name="provinces" id="vo">
+                        <option value="{$vo.id}" <eq name="address.province" value="$vo.id">selected</eq> >{$vo.en_name}</option>
+                    </volist>
+                </select>
+            </label>
+            <label><i class="golden">* </i>城市
+                <select name="city" id="citySelect" class="select required" onchange="checkEmpty(this);getHometown( this.value )" data-msg="请选择所在城市">
+                    <option value="">请选择</option>
+                    <volist name="citys" id="vo">
+                        <option value="{$vo.id}" <eq name="address.city" value="$vo.id">selected</eq> >{$vo.en_name}</option>
+                    </volist>
+                </select>
+            </label>
+            <label>区
+                <select name="hometown" id="hometownSelect">
+                    <option value="">请选择</option>
+                    <volist name="hometowns" id="vo">
+                        <option value="{$vo.id}" <eq name="address.hometown" value="$vo.id">selected</eq>>{$vo.en_name}</option>
+                    </volist>
+                </select>
+            </label>
+            <span class="error_tips"></span>
+        </dd>
+        <dd><label>
+        	<span><i class="golden">* </i>地址</span>
+            <input type="text" name="address" class="text detailed_address required" value="{$address.address}" onblur="checkEmpty(this)" data-msg="请填写您的详细地址" />
+            </label>
+        	<span class="error_tips"></span>
+        </dd>
+        <dd>
+           <label><span>小区</span>
+           <input type="text" name="xqarea" class="text" value="{$address.xqarea}" /> 如果您住在小区内，请填写小区名
+           </label>
+        </dd>
+        <dd><label>
+        	<span><i class="golden">* </i>邮政编码</span>
+            <input type="text" name="postcode" class="text required" value="{$address.postcode}" onblur="checkEmpty(this)" data-msg="请输入邮政编码" />
+            </label>
+        	<span class="error_tips"></span>
+        </dd>
+        <dd><label class="cellphone_num">
+        	<span><i class="golden">* </i>手机</span>
+            <input type="text" name="mobile" id="Mobile" class="text required" value="{$address.mobile}" onblur="checkMobile(this)" data-msg="请输入您的手机号码" />
+            </label>
+        	<span class="error_tips"></span>
+        </dd>
+        <dd><label class="fixedphone_num">
+            <span>固定电话</span>
+            <input type="text" name="phone" class="text" value="{$address.phone}" />
+        </label></dd>
+        <dd><label><input type="checkbox" name="setDefault" class="checkbox" <eq name="setDefault" value="1">checked="checked"</eq> /> 使用此地址作为默认送货地址</label></dd>
+    </dl>
+    <input type="hidden" name="id" value="{$address.id}"/>
+    <present name="checkout">
+        <input type="hidden" id="checkouttype" name="checkout" value="1"/>
+    </present>
+    <input type="submit" value="提交" class="btn_submit"/>
+    </form>
+</div>
+<!--编辑已有地址 overlay end-->

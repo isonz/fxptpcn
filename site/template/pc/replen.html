@@ -1,0 +1,49 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+<{include file="top.html"}>
+<style>
+.productdiv .productList ul li{ height:360px;}
+.productList ul li a p.replen{text-align:left; height:auto; line-height:14px; font-size:12px;}
+.productList ul li a p.replen b{ font-size:14px; color:#666;}
+</style>
+<div class="homeCenter">
+	<div class="productdiv">
+    	<div class="productList">
+        	<h3>补货申请</h3>
+        	<{if $products|default:''}>
+            
+            <form action="?a=save" method="post" id="replenForm">
+                <ul class="clearfix">     
+                    <{foreach from=$products key=key item=product}>
+                    <input name="ids[<{$product.id}>]" type="hidden" value="<{$product.id}>" />
+                    <li>
+                         <a href="/product/?id=<{$product.skuid}>" target="_blank">
+                         
+                         <div class="imgDiv"><img src="<{$picpath}><{$product.pic}>" /></div>
+                         <p class="replen"><b><{$product.title}></b></p>
+                         <p class="replen">产品规格：<{$product.sku_name}></p>
+                         <p class="replen">产品编码：<{$product.sku}></p>
+                         <p class="replen">订单号：<{$product.order_code}></p>
+                         <p class="replen">上报日期：<{$product.create_time|date_format:'%Y-%m-%d'}></p>
+                         <p class="replen">补货数量：<b><{$product.num}></b> </p>
+                         </a>
+                    </li>
+                    <{/foreach}>
+                </ul>
+                 <input name="order_code" type="hidden" value="<{$order_code}>" />
+                <br><br>
+                <{if $productlen gt 0}><div style="text-align:center"><input name="button" type="button" value="确定补货" class="innerSub" onclick="replenSubmit();" /></div><{/if}>
+           </form>
+			
+            
+            <{else}>
+             	<div class="replenDiv">此订单还没有通过电话客服核对补货信息，请致电 400-883-3338 核实补货信息。</div>
+            <{/if}>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<{include file="footer.html"}>

@@ -1,0 +1,72 @@
+<{include file="header.html"}>
+
+<div class="mainDiv">
+	<{include file="top.html"}>
+
+	<div class="homeCenter">
+    <div class="contentdiv clearfix" style="background:#fff; padding:10px;">
+        <div class="reg-notice">
+        	<b>温馨提示：</b><br />
+           	请填写您需要申请的那个项目的支持，我们会给你提供该项目对应的服务支持。
+        </div>
+<form id="form1" name="form1" method="post" action="" onsubmit="return certification();">
+<div class="reg-info" style="float:left;">
+
+<style>
+.reg-info table.people td.name{ width:115px;}
+input.import{ width:99%; background:#f9f9f9;border:1px solid #ccc;height:34px; text-indent:10px; font-size:12px; line-height:34px;}
+</style>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="people">
+              <tr>
+                <td class="name">商品编号: &nbsp;&nbsp; <span>(<i>*</i>必填)</span></td>
+              </tr>
+              <tr>
+              	<td>
+                <input type="text" name="sales_channel" placeholder="请输入商品编号" class="import" />
+                </td>
+              </tr>
+              <tr>
+                <td class="name">联系电话:&nbsp;&nbsp; <span>(<i>*</i>必填)</span></td>
+                
+              </tr>
+              <tr><td><input type="text" name="tel" placeholder="请输入联系电话" class="import" /></td></tr>
+              <tr>
+                <td class="name">申请项目:&nbsp;&nbsp; <span>(<i>*</i>必填)</span></td>
+                
+              </tr>
+              <tr>
+              	<td><input type="text" name="apply" placeholder="请输入申请项目" class="import" /></td>
+              </tr>
+              <tr>
+                <td class="name">计划活动场地:&nbsp;&nbsp; <span>(<i>*</i>必填)</span></td>
+                
+              </tr>
+              <tr><td><input type="text" name="field" placeholder="请输入计划活动场地" class="import" /></td></tr>
+              <tr>
+                <td class="name">组织人数:&nbsp;&nbsp; <span>(<i>*</i>必填)</span></td>
+                
+              </tr>
+              <tr><td><input type="text" name="field" placeholder="请输入组织人数" class="import" /></td></tr>
+              <tr>
+                <td class="name">补充内容:</td>
+                
+              </tr>
+              <tr><td><textarea name="" cols="" rows="" style="width:92%; height:30px;"></textarea></td></tr>
+        </table>
+
+
+         
+        </div>
+</form>
+        </div>
+    </div>
+<div class="regsubmit">
+            <input name="fileuploadpath" id="fileuploadpath" type="hidden" value="signbccl" />
+            <input name="t" id="type" type="hidden" value="<{$usertype}>" />
+            <input name="ckval" id="ckval" type="hidden" value="" />
+            <input type="submit" name="submit" value="提交" onclick="certificationval()" class="btn-primary innerSub" />
+        </div>
+</div>
+
+<{include file="footer.html"}>

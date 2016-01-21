@@ -1,0 +1,167 @@
+<{include file="header.html"}>
+
+
+<div class="mainDiv">
+ <{include file="top.html"}>
+ <div class="homeCenter">
+	<div class="productDetail">
+    	<!--宽屏显示区域-->
+
+        <div class="seeProduct">
+        	<h3>看了又看</h3>
+            <ul>
+              <{foreach from=$history key=hkey item=his}>
+            	<li class="seeBd">
+                    <a href="/product/?id=<{$his.id}>">
+                        <img src="<{$picpath}><{$his.pic}>" />
+                        <p><{$his.title}><br /><b>¥<{$his.current_price}></b> </p>
+                    </a>
+                </li>
+               <{/foreach}>
+                
+            </ul>
+        </div>
+		
+        <script>
+        	$(window).load(function(){
+				var smallImg = $(".productSmall ul li");
+				var imgSrc = smallImg.eq(0).children("img").attr("src");
+				smallImg.eq(0).addClass("select");
+				$("#zoom_img").attr("src",imgSrc);
+			});
+        </script>
+    	<!--产品顶部-->
+       <div class="productTop clearfix borderRadius2">
+       	<form action="/buy" method="post" id="productForm">
+       		<div class="productSmall">
+            	<ul>
+            	  <{foreach from=$sku.pics key=pkey item=pic}>
+                	<li><img src="<{$picpath}><{$pic.path}>" /><em></em></li>
+                  <{/foreach}>
+                </ul>
+            </div>
+            
+            <div class="productBig">
+            	<img id="zoom_img" src=""  data-zoom-image="" />
+            </div>
+            
+            <div class="productInfo">
+            	<h2><{$sku.iteminfo.title}></h2>
+                <p class="productPrice borderRadius2">销售价：<strong>¥<{$sku.current_price}></strong></p>
+                <p class="pro-info"><{$sku.iteminfo.summary}></p>
+                <dl class="clearfix">
+                	<dt>货      号：</dt>
+                    <dd><{$sku.sku}></dd>
+                    
+                    <dt>累计订货：</dt>
+                    <dd><{$sku.order_num}></dd>
+                    
+                    <dt>规 格：</dt>
+                    <dd>
+                    <{foreach from=$sku.skus key=skey item=sks}>
+                   		<a title="<{$sks.sku_name}>" style=" margin-right:5px;" href="/product/?id=<{$sks.id}>"<{if $sks.id eq $sku.id}> class="active"<{/if}>><img src="<{$picpath}><{$sks.pic}>" style="width:30px; height:30px;" /></a>
+                    <{/foreach}>
+                    </dd>
+                    <dt>数      量：</dt>
+                     <dd>
+                    	<a href="javascript:left();" class="prolist_left" id="listLeft">-</a>
+                        <input name="qts[<{$sku.id}>]" type="text" class="prolist_input" value="1" onblur="valChange(<{$sku.stock}>)" id="proInput">
+                        <a href="javascript:right(<{$sku.stock}>);" class="prolist_right" id="listRight">+</a>
+                        
+                        <em>( 库存<{$sku.stock}>件 )</em>
+                    </dd>
+                </dl>
+                <div class="submitDiv">
+                	<{if $sku.stock lt 1}>
+                		<!-- 到货通知 或者 购买和加入购物车的按钮变灰色 (库存小于1) -->
+                	<{else}>
+                		<input name="buy" type="submit" value=" " class="mrbt buybt" />
+                		<input name="cart" type="button" value=" " class="mrbt cartbt" onclick="cartSubmit()"/>
+                	<{/if}>
+                	<input name="" type="button" value="" class="favbt" onclick="addFav(<{$sku.id}>)" />
+                	<input name="sku_id" id="sku_id" type="hidden" value="<{$sku.id}>" />
+                	<input name="product_ids[<{$sku.id}>]" id="sku_id" type="hidden" value="<{$sku.id}>" />
+                </div>
+            </div>
+            </form>
+            
+            <script>
+			$(function(){
+				$('.lanrenzhijia').click(function(){
+					var flyElm = $('.lanrenzhijia').clone().css('opacity','0.7');
+					flyElm.css({
+						'z-index': 9000,
+						'display': 'block',
+						'position': 'absolute',
+						'top': $('.lanrenzhijia').offset().top +'px',
+						'left': $('.lanrenzhijia').offset().left +'px',
+						'width': 50 +'px',
+						'height': 50 +'px',
+						'border': '2px solid #f00'
+					});
+					$('body').append(flyElm);
+					flyElm.animate({
+						top:$('.right').offset().top,
+						left:$('.right').offset().left,
+						width:50,
+						height:50,
+					},'slow');
+					var lf = parseInt($(".right").offset.left);
+					var zf = parseInt(flyElm.offset.left);
+					if(flyElm.offset.left === $(".right").offset.left){
+						flyElm.fadeOut();
+					}
+				});
+				
+				
+			});
+			</script>
+       </div>
+        <!--产品详情-->
+       <div class="productInfom borderRadius2">
+       		<ul class="clearfix">
+            	<li><a href="javascript:;" class="select">商品信息</a></li>
+                <li><a href="/files/<{$sku.sku}>.doc">商品信息下载</a></li>
+                <li><a href="/files/<{$sku.sku}>.rar">商品图片下载</a></li>
+            </ul>
+            <div class="productinfoDiv">
+            	<!-- 内容 -->
+            	<{$sku.iteminfo.details}>
+            </div>
+       </div>
+        
+    </div>  
+</div>
+
+
+</div>
+
+
+<!--弹出层-->
+<div class="uploaddiv" style="display: none;">
+    <div class="Topleft">
+        <a href="javascript:;" class="close" title="关闭"></a>
+        <div class="Topright">
+            <div class="Topcenter"></div>
+        </div>
+    </div>
+    <div class="CenterLeft">
+        <div class="CenterRight">
+            <div id="centerVideo" style="width: 960px; height: 580px;"></div>
+        </div>
+    </div>
+    <div class="FootLeft">
+        <div class="FootRight">
+            <div class="FootCenter"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://player.youku.com/jsapi"></script>
+<!--弹出层 end-->
+
+
+<script>
+	$("#zoom_img").elevateZoom(); 
+</script>
+
+<{include file="footer.html"}>

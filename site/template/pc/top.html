@@ -1,0 +1,17 @@
+<{if $username|default:0}>
+	<div class="maintop clearfix">
+    	<p>欢迎进入帕斯婷订货系统！</p>
+        <span>
+
+        	<a href="/" class="topRight"><i class="topBackicon"></i>帕斯婷首页</a>
+            <a href="/cart" class="topRight"><i class="topcart"></i>购物车<font id="cartTopNum"><{$cart_num}></font></a>
+            <!--会员登录未登录区别-->
+            <!--<a href="/sign" class="topRight">立即登录</a>
+            <a href="/sign?a=up">免费注册</a>-->
+        	<cite class="topRight">欢迎您！<b><{$username}></b></cite>
+            <a href="/sign?out">退出</a>
+            
+            <!--会员登录未登录区别-->
+        </span>
+    </div>
+<{/if}>

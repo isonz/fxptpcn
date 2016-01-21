@@ -1,0 +1,91 @@
+<{include file="header.html"}>
+<div class="mainDiv">
+<{include file="top.html"}>
+<!--弹出层-->
+<div class="paypop"></div>
+<div class="paypopDiv">
+    <h3>订单已经提交</h3>
+    <div class="paypopInfo clearfix">
+    您的订单已经提交到支付款页面，请稍等～！<br /><br />
+    <a href="javascript:;" class="payerror">支付未完成</a>
+    <a href="javascript:;" class="payover">支付已完成</a>
+    </div>
+</div>
+<!--弹出层 END-->
+<div class="homeCenter">
+	<div class="borderDiv">
+    <div class="orderInquiry">
+	<div class="orderList">
+    <style>
+		.orderInquiry{ background:none; border:0;}
+    	.orderInquiry table td{ padding:8px 5px; line-height:20px; background:#fff;}
+		.orderInquiry table td strong{ color:#333;}
+		.orderInquiry table td em{ font-weight:700; color:#666;}
+		.orderInquiry table{ border-top:1px solid #a36d98;}
+		.orderInquiry table td.title{ background:#f5f5f5; font-size:12px; padding:5px; color:#a15692;}
+		.orderInquiry table td a.imgUrl{ display:inline-block; float:left;}
+		.orderInquiry table td span{ float:left; margin-left:10px; width:60%;}
+		.orderInquiry table td span strong{ display:inline-block; width:60%;text-overflow:ellipsis;white-space: nowrap; overflow:hidden; float:left; margin-right:6px;}
+		.orderInquiry table td span dfn{ float:left; color:#666;}
+		.orderInquiry table td a.paya{ padding:4px 10px; background: #F87221; color:#fff; margin-bottom:10px; display:block; text-align:center;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px; line-height:14px;}
+    </style>
+            <div id="order1">
+            <{foreach from=$orders key=key item=order}>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="80%" align="left" class="title">订单编号: <b><a href="/order/?order_code=<{$order.order_code}>" target="_blank"><{$order.order_code}></a></b></td>
+                <td width="20%" align="center" class="title">操作</td>
+              </tr>
+              <tr>
+                <td align="left">
+                	<{assign var="titlenum" value="0"}>
+                	<{assign var="titleiii" value="0"}>
+					<{foreach from=$order.products key=key item=product}>
+						<{$titlenum = count($order.products)}>
+						<{$titleiii = $titleiii + 1}>
+						<{assign var="product_num" value="0"}>
+						<{foreach from=$product.outstock key=key1 item=outstock}>
+                            <{$product_num = $product_num + $outstock.product_num}>
+                        <{/foreach}>	
+                   <div style="display:block; margin-bottom:5px;" class="clearfix">				
+					<a href="/product/?id=<{$product.skuid}>" target="_blank" class="imgUrl"><img src="<{$picpath}><{$product.pic}>" height="80"  /></a>
+                    
+                    <span class="clearfix">
+                        <strong><{$product.title}></strong> <dfn>[<{$product.sku}>]</dfn><br />数量：<{$product_num}><br />总价：￥<em><{$order.amount|string_format:'%.2f'}></em> 
+                        </span>
+                        </div>
+                        <{/foreach}>
+                        <div style="display:block;">
+                        <strong>已支付：</strong>￥<i><{$order.paid}></i>
+                    </div>
+                    
+                </td>
+                <td align="center">
+                <{if $order.order_code|mb_substr:-2:2 eq 'BH'}>
+                	<a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                <{else}>
+                	<{if 1==$order.order_status}>
+                		<a class="paya" href="/pay/?order_code=<{$order.order_code}>"<{if !$is_weixin}> onclick="payShowPop('<{$order.order_code}>')"<{/if}> target="_blank">预付款支付</a>
+                		<a class="paya" href="/pay/?order_code=<{$order.order_code}>&rate=1"<{if !$is_weixin}> onclick="payShowPop('<{$order.order_code}>')"<{/if}> target="_blank">全款支付</a>
+                		<a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                	<{elseif $order.order_status lt 4}>
+						<{if $order.amount - $order.paid gt 0}><a class="paya" href="/pay/?order_code=<{$order.order_code}>&yk=1"<{if !$is_weixin}> onclick="payShowPop('<{$order.order_code}>')"<{/if}> target="_blank">支付余款</a><{/if}>
+                        <a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                	<{else}>
+                		<a href="/order/?order_code=<{$order.order_code}>" target="_blank">订单详情</a>
+                	<{/if}>
+                <{/if}>
+                </td>
+              </tr>
+            </table>
+            <{/foreach}>
+            
+           <div class="bottomDiv clearfix"><div id="paged"><{$paged}></div></div>
+		</div>
+ 	  </div>
+    </div>
+    </div>
+</div>
+
+</div>
+<{include file="footer.html"}>

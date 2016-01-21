@@ -1,0 +1,95 @@
+<{include file="header.html"}>
+
+
+<div class="mainDiv">
+ <{include file="top.html"}>
+ <div class="homeCenter" style="padding:0;">
+ 	<h2><{$sku.iteminfo.title}></h2>
+	<div class="productDetail">
+    	<!--宽屏显示区域-->
+        <script>
+        	$(window).load(function(){
+				var smallImg = $(".productSmall ul li");
+				var imgSrc = smallImg.eq(0).children("img").attr("src");
+				smallImg.eq(0).addClass("select");
+				$("#zoom_img").attr("src",imgSrc);
+			});
+        </script>
+    	<!--产品顶部-->
+       <div class="productTop clearfix borderRadius2">
+       	<form action="/buy" method="post" id="productForm">
+       		
+            
+            <div class="productBig">
+            	<img id="zoom_img" src="" />
+            </div>
+            
+            <div class="productSmall">
+            	<ul class="clearfix">
+            	  <{foreach from=$sku.pics key=pkey item=pic}>
+                	<li><img src="<{$picpath}><{$pic.path}>" /><em></em></li>
+                  <{/foreach}>
+                </ul>
+            </div>
+            
+            <div class="productInfo">
+            	
+                <p class="productPrice borderRadius2">销售价：<strong>¥<{$sku.current_price}></strong></p>
+                <p class="pro-info"><{$sku.iteminfo.summary}></p>
+                <dl class="clearfix">
+                	<dt>货      号：</dt>
+                    <dd><{$sku.sku}></dd>
+                    
+                    <dt>规格：</dt>
+                    <dd><{$sku.sku_name}></dd>
+                    
+                    <dt>规 格：</dt>
+                    <dd style="width:80%;">
+                    <{foreach from=$sku.skus key=skey item=sks}>
+                   		<a title="<{$sks.sku_name}>" style=" margin-right:2px;" href="/product/?id=<{$sks.id}>"<{if $sks.id eq $sku.id}> class="active"<{/if}>><img src="<{$picpath}><{$sks.pic}>" style="width:30px; height:30px;" /></a>
+                    <{/foreach}>
+                    </dd>
+                    
+                    <dt>数      量：</dt>
+                     <dd style="width:80%;">
+                    	<a href="javascript:left();" class="prolist_left" id="listLeft">-</a>
+                        <input name="qts[<{$sku.id}>]" type="text" class="prolist_input" value="1" onblur="valChange(<{$sku.stock}>)" id="proInput">
+                        <a href="javascript:right(<{$sku.stock}>);" class="prolist_right" id="listRight">+</a>
+                        <em>( 库存<{$sku.stock}>件 )</em>
+                    </dd>
+                </dl>
+                <div class="submitDiv">
+                	<{if $sku.stock lt 1}>
+                		<!-- 到货通知 或者 购买和加入购物车的按钮变灰色 (库存小于1) -->
+                	<{else}>
+                		<input name="buy" type="submit" value="立即购买" class="mrbt buybt" />
+                		<input name="cart" type="button" value="加入订货车" class="mrbt cartbt" onclick="cartSubmit()"/>
+                	<{/if}>
+                	<input name="favorite" type="button" value="加入收藏夹" class="favbt" onclick="addFav(<{$sku.id}>)" />
+                	<input name="sku_id" id="sku_id" type="hidden" value="<{$sku.id}>" />
+                	<input name="product_ids[<{$sku.id}>]" id="sku_id" type="hidden" value="<{$sku.id}>" />
+                </div>
+            </div>
+            </form>
+       </div>
+        <!--产品详情-->
+       <div class="productInfom borderRadius2">
+       		<ul class="clearfix">
+            	<li class="bdRig"><a href="javascript:;" class="select">商品信息</a></li>
+                <li class="bdRig"><a href="/files/<{$sku.sku}>.doc">商品信息下载</a></li>
+                <li><a href="/files/<{$sku.sku}>.rar">商品图片下载</a></li>
+            </ul>
+            <div class="productinfoDiv">
+            	<!-- 内容 -->
+            	<{$sku.iteminfo.details}>
+            </div>
+       </div>
+        
+    </div>  
+</div>
+
+
+</div>
+
+
+<{include file="footer.html"}>
